@@ -1,12 +1,10 @@
 setwd("/Volumes/TOSHIBA EXT/COBERTURAS/chelsav1/chelsa_cruts")
 
-library(future.apply)
 library(terra)
 
 #Precipitation####
-future::plan(multisession, workers = parallel::detectCores() - 1)
-
 prec<-list.files("prec", full.names = T, pattern=".tif*");prec
+#prec <- prec[grep("_(1984|1974|1973|1953|1933|1994|1995|2005)_", prec)];prec
 head(prec)
 years <- gsub(".*_prec_\\d+_(\\d{4})_.*", "\\1", prec)
 files_by_year <- split(prec, years)
@@ -28,7 +26,6 @@ future_mapply(
 rm(prec)
 
 #Temperaturr#####
-future::plan(multisession, workers = parallel::detectCores() - 1)
 
 #minimum
 tmin<-list.files("tmin", full.names = T, pattern=".tif*");prec
